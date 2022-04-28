@@ -24,7 +24,14 @@ function draw() {
   colorHue += 0.1
   colorHue %= 360
 
-  if (started) drawFFT()
+  //if (started) drawFFT()
+  if (started) {
+    micLevel = mic.getLevel();
+    console.log(micLevel)
+    let y = micLevel * height;
+    noFill()
+    ellipse(width/2, height/2, y, y);
+  }
 
 }
 
@@ -81,4 +88,5 @@ function startFFT() {
   mic.start()
   fft = new p5.FFT(0.7, 512)
   fft.setInput(mic)
+  console.log("started")
 }

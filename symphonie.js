@@ -1,5 +1,7 @@
 let started = false
 let colorHue = 0
+let amplifier = 2.0
+let spreadMultiplier = 3.0
 let offset = 0
 let mic, fft, spectrum, waveform, beat, binCount = 64
 let rings = []
@@ -18,11 +20,13 @@ let playerColor, asteroidColor, waveColor, backgroundColor
 
 function setup() {
 
-	createCanvas(windowWidth, windowHeight)
+	let cnv = createCanvas(windowWidth, windowHeight)
+	cnv.mousePressed(userStartAudio)
 
 	colorMode(HSB, 360, 100, 100, 100)
 	background(0, 0, 0, 100)
 
+	setupAudio()
 	setupRings()
 	setupPlayer()
 
@@ -50,8 +54,8 @@ function draw() {
 
 	if (started) {
 		analyzeFFT(binCount)
-		// drawWave(waveform,100,64,12)
-		// drawFFT()
+		//drawWave(waveform,100,64,12)
+		//drawFFT()
 		for (let i = 0; i < rings.length; i++) {
 			rings[i].draw()
 		}

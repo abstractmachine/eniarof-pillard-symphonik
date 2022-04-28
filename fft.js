@@ -1,10 +1,14 @@
 let waveformLength = 128
+
+
+function setupAudio() {
+  mic = new p5.AudioIn()
+  mic.start()
+}
   
 
 function setupFFT() {
   started = true
-  mic = new p5.AudioIn()
-  mic.start()
   fft = new p5.FFT(0.05, 512)
   fft.setInput(mic)
   beat = new p5.PeakDetect(20,20000,0.1,10)
@@ -43,6 +47,7 @@ function drawWave(wave, couleur, radius = 50, spread=64, resolution=12) {
   noFill()
 
   let angleStep = TWO_PI / waveformLength
+  let multiplier = 1.0
 
   beginShape()
   for (let i = 0; i < waveformLength; i+=4) {
@@ -50,7 +55,7 @@ function drawWave(wave, couleur, radius = 50, spread=64, resolution=12) {
     let radian = i * angleStep
     // uglify the value
     let value = Math.trunc(wave[i]*resolution) / (resolution * 1.0)
-    let distance = radius + (value * spread)
+    let distance = radius + ((value * spread) * multiplier)
 
     let x = width * 0.5
     let y = height * 0.5
